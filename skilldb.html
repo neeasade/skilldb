@@ -6,11 +6,15 @@
   <h1>Welcome to Meteor!</h1>
 
 <div ng-controller="EmployeeCtrl">
-  <ul>
-    <li ng-repeat="employee in employees">
-      <p>{{employee.name}}</p>
-    </li>
-  </ul>
+  <table ng-table="tableParams">
+  <table>
+
+   <table ng-table="tableParams" class="table table-condensed table-bordered table-striped">
+	<tr ng-repeat="row in employees">
+	  <td data-title="'Name'" filter="{name: 'text'}" sortable="'name'">{{row.name}}</td>
+	  <td data-title="'Description'" filter="{description: 'text'}" sortable="'description'">{{row.description}}</td>
+	</tr>
+  </table>
 </div>
 </body>
 
