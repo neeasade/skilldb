@@ -2,13 +2,15 @@
   <title>skilldb</title>
 </head>
 
-<body>
+<body ng-app="skilldb">
   <h1>Welcome to Meteor!</h1>
 
-  {{> hello}}
+<div ng-controller="EmployeeCtrl">
+  <ul>
+    <li ng-repeat="employee in employees">
+      <p>{{employee.name}}</p>
+    </li>
+  </ul>
+</div>
 </body>
 
-<template name="hello">
-  <button>Click Me</button>
-  <p>You've pressed the button {{counter}} times.</p>
-</template>
