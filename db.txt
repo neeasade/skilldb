@@ -1,0 +1,47 @@
+Employee
+	ID
+	Name
+	Title_ID
+	Location_ID
+	Login_ID
+
+Employee_Skills
+	Employee_ID
+	Skills_ID
+
+Roles_Skills
+	Role_ID
+	Skill_ID
+
+Employee_Roles
+	Employee_ID
+	Role_ID
+
+Skills
+	ID(desc)
+
+Title
+	ID(desc)
+
+Location
+	ID(desc)
+
+Client
+	ID(desc)
+
+Roles
+	ID
+	Client_ID
+	Active(bool)
+	Bill_rate
+	Start_date
+	End_date
+	Bill_type(hourly, monthly)
+	Utilization
+	Project_name
+
+Login
+	ID
+	Username
+	Password
+
