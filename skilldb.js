@@ -1,14 +1,9 @@
+//Employees = new Mongo.Collection("employees");
+
 if (Meteor.isClient) {
   angular.module('skilldb', ['angular-meteor']);
 
-  angular.module('skilldb').controller('EmployeeCtrl', ['$scope', function ($scope) {
-    $scope.employees = [
-      {
-        'name': 'Bob Smith',
-      },
-      {
-        'name': 'Sarah Wells',
-      }
-    ];
-  }]);
+  angular.module('skilldb').controller('EmployeeCtrl', function ($scope, $meteor) {
+    $scope.employees = $meteor.collection(Employees);
+  });
 }
