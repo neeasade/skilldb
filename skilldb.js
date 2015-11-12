@@ -26,10 +26,12 @@ if (Meteor.isClient) {
     // sections to loop through to do table repeats
     $scope.tableSections = ['skill', 'title', 'client', 'location'];
 
+    // for collections that will only have an ID, parameter sets the table header title
     function getSingleColumn(name) {
       return [{ field: "_id", title: name, sortable: "_id", show: true }]
     }
 
+    // default parameters for all the tables, to control pagination/buttons/other.
     function getDetaultParams(dataSource) {
       return new NgTableParams({
         sorting: { name: 'asc'}
