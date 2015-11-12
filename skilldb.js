@@ -36,6 +36,7 @@ if (Meteor.isClient) {
       return new NgTableParams({
         sorting: { name: 'asc'}
         }, {
+        total: dataSource.length,
         getData: function($defer, params) {
             $defer.resolve($filter('orderBy')(dataSource, params.orderBy()));
         }
