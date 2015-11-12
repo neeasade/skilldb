@@ -6,7 +6,7 @@
   <h1>Welcome to Meteor!</h1>
 
 <div ng-controller="EmployeeCtrl">
-  <table ng-table="employeeTable" class="table">
+  <table ng-table="employeeTable" class="table table-condensed table-bordered table-striped">
     <tr ng-repeat="employee in $data">
       <td data-title="'Name'" sortable="'name'" header-title="'name'">{{employee.name}}</td>
       <td data-title="'Description'" header-title="'description'">{{employee.description}}</td>
@@ -14,10 +14,10 @@
   </table>
 
   <div ng-repeat="section in tableSections">
-    <table ng-table="{{ section }}Table" class="table">
-      <tr ng-repeat="item in $data">
-	<td data-title="'asdf'" sortable="'_id'">{{item._id}}</td>
-      </tr>
+    <table ng-table-dynamic="{{section}}Table with {{section}}Cols" class="table table-condensed table-bordered table-striped">
+       <tr ng-repeat="row in $data">
+          <td ng-repeat="col in $columns">{{row[col.field]}}</td>
+        </tr>
     </table>
   </div>
 </div>

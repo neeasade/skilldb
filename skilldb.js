@@ -11,14 +11,24 @@ if (Meteor.isClient) {
     $scope.clients = $meteor.collection(Clients);
 
     // set table params
-    $scope.employeeTable= getDetaultParams($scope.employees);
-    $scope.skillTable= getDetaultParams($scope.skills);
+    $scope.employeeTable = getDetaultParams($scope.employees);
+    $scope.skillTable = getDetaultParams($scope.skills);
     $scope.titleTable = getDetaultParams($scope.titles);
-    $scope.clientTable= getDetaultParams($scope.clients);
-    $scope.locationTable= getDetaultParams($scope.locations);
+    $scope.clientTable = getDetaultParams($scope.clients);
+    $scope.locationTable = getDetaultParams($scope.locations);
+
+    // set table columns by ID, for single property items.
+    $scope.skillCols = getSingleColumn('Skills');
+    $scope.titleCols = getSingleColumn('Titles');
+    $scope.clientCols = getSingleColumn('Clients');
+    $scope.locationCols = getSingleColumn('Locations');
 
     // sections to loop through to do table repeats
     $scope.tableSections = ['skill', 'title', 'client', 'location'];
+
+    function getSingleColumn(name) {
+      return [{ field: "_id", title: name, sortable: "_id", show: true }]
+    }
 
     function getDetaultParams(dataSource) {
       return new NgTableParams({
