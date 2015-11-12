@@ -34,8 +34,25 @@ if (Meteor.isServer) {
         {'name': 'Cool Guy',
           'description': 'Leisure suit required. And only fiercest manners.'}
       ];
+
+      // filler for the others
+      var skills = [{'_id' : 'skill1'}, {'_id' : 'skill2'}];
+      var titles = [{'_id' : 'title1'}, {'_id' : 'title2'}];
+      var clients = [{'_id' : 'client1'}, {'_id' : 'client2'}];
+      var locations = [{'_id' : 'location1'}, {'_id' : 'location2'}];
+
+      // Populate the arrays:
       for (var i = 0; i < employees.length; i++)
         Employees.insert(employees[i]);
+
+      for (var i = 0; i < skills.length; i++)
+        Skills.insert(skills[i]);
+      for (var i = 0; i < titles.length; i++)
+        Titles.insert(titles[i]);
+      for (var i = 0; i < clients.length; i++)
+        Clients.insert(clients[i]);
+      for (var i = 0; i < locations.length; i++)
+        Locations.insert(locations[i]);
     }
   });
 }

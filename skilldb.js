@@ -10,16 +10,25 @@ if (Meteor.isClient) {
     $scope.locations = $meteor.collection(Locations);
     $scope.clients = $meteor.collection(Clients);
 
-    $scope.tableParams = new NgTableParams({
-      //count: 1,
-      sorting: {
-        name: 'asc'
-      }
-    }, {
-      //dataset: temp
-      getData: function($defer, params) {
-          $defer.resolve($filter('orderBy')($scope.employees, params.orderBy()));
-      }
-    });
+    // set table params
+    $scope.employeeTable= getDetaultParams($scope.employees);
+    $scope.skillTable= getDetaultParams($scope.skills);
+    $scope.titleTable = getDetaultParams($scope.titles);
+    $scope.clientTable= getDetaultParams($scope.clients);
+    $scope.locationTable= getDetaultParams($scope.locations);
+
+    // sections to loop through to do table repeats
+    $scope.tableSections = ['skill', 'title', 'client', 'location'];
+
+    function getDetaultParams(dataSource) {
+      return new NgTableParams({
+        sorting: { name: 'asc'}
+        }, {
+        getData: function($defer, params) {
+            $defer.resolve($filter('orderBy')(dataSource, params.orderBy()));
+        }
+      });
+    }
+
   }]);
 }
