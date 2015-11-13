@@ -13,9 +13,9 @@
         <th st-sort="location"> Location </th>
       </tr>
       <tr>
-        <td colspan="3">
+        <th colspan="3">
           <input st-search class="input-sm form-control" placeholder="search..." type="search" />
-        </td>
+        </th>
       </tr>
       <tr ng-repeat="row in employees">
         <td> {{row.fullName()}}</td>
@@ -37,14 +37,14 @@
         <th st-sort="_id"> {{section.name}} </th>
       </tr>
       <tr>
-        <td>
+        <th>
           <input st-search class="form-control" placeholder="search..." type="search"/>
-        </td>
+        </th>
       </tr>
       <tr ng-repeat="row in section.collection">
         <td>
-          <a href="#" editable-text="row._id">
-            {{ row._id || "empty "}}
+          <a href="#" editable-text="row._id" onbeforesave="ValidateEmpty(row._id, $data, section.name)">
+            {{ row._id }}
           </a>
         </td>
       </tr>

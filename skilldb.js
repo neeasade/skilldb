@@ -19,5 +19,26 @@ if (Meteor.isClient) {
     { name: 'Locations', collection: $scope.locations }
     ];
 
+    // Empty entries are not allowed.
+    $scope.ValidateEmpty = function(before, after, type) {
+      if (after === '') {
+        return "Empty not allowed.";
+      } else {
+        // it is assumed the change will be successful, so we will change
+        // employees and roles with this here.
+        switch(type) {
+          case 'Titles':
+            for (var i = 0; i < $scope.employees.length; i++)
+              $scope.employees[i].title = ($scope.employees[i].title === before ? after : before);
+            break;
+          case 'Locations':
+            for (var i = 0; i < $scope.employees.length; i++)
+              $scope.employees[i].location = ($scope.employees[i].location === before ? after : before);
+            break;
+          default:
+            break;
+        }
+      }
+    };
   }]);
 }

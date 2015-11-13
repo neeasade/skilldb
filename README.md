@@ -10,8 +10,9 @@ There are two types of users, users who can edit data, and users who can't, you 
 
 
 Related links:
+- https://atmospherejs.com/dotansimha/accounts-ui-angular
+- http://vitalets.github.io/angular-xeditable/
 - https://angular-meteor.com/tutorials/angular1/
-- https://github.com/esvit/ng-table
 - https://www.meteor.com/
 - http://angular-meteor.com/
 - https://atmospherejs.com/dburles/collection-helpers
