@@ -8,8 +8,9 @@
 <div ng-controller="EmployeeCtrl">
   <table ng-table="employeeTable" class="table table-condensed table-bordered table-striped">
     <tr ng-repeat="employee in $data">
-      <td data-title="'Name'" sortable="'name'" header-title="'name'">{{employee.name}}</td>
-      <td data-title="'Description'" header-title="'description'">{{employee.description}}</td>
+      <td data-title="'Name'" sortable="'firstName'" header-title="'name'">{{employee.fullName()}}</td>
+      <td data-title="'Location'">{{employee.location}}</td>
+      <td data-title="'Title'">{{employee.title}}</td>
     </tr>
   </table>
 

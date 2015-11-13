@@ -1,21 +1,33 @@
 // ------------- Documents layout (MongoDB tables) -------------
 // Defining them makes access available in both client and server side.
+// We are using the dburles:collection-helpers package to make foreign-key like features a thing.
 
-// ID, Name, Title_ID, Location_ID, Login_ID, EditRights(bool)
+// ID, Name, Title_ID, Location_ID,
 Employees = new Mongo.Collection("employees");
 
-// ID, Client_ID, Active(bool), Bill_rate, Start_date, End_date, Bill_type(hourly, monthly), Utilization, Project_name
-Roles = new Mongo.Collection("roles");
-
-// Login
-Logins = new Mongo.Collection("logins");
-
-// Categories, only one document item per.
+// Categories, only one document item per (using id)
 Skills = new Mongo.Collection("skills");
 Titles = new Mongo.Collection("title");
 Locations = new Mongo.Collection("location");
 Clients = new Mongo.Collection("client");
 
+Employees.helpers({
+  fullName: function() {
+    return this.firstName + ' ' + this.lastName;
+  },
+  title: function() {
+    return this.findOne(this.titleId);
+  },
+  location: function() {
+    return this.findOne(this.locationId);
+  }
+})
+
+// ID, Client_ID, Active(bool), Bill_rate, Start_date, End_date, Bill_type(hourly, monthly), Utilization, Project_name
+Roles = new Mongo.Collection("roles");
+
+// Login ( perhaps to be handled not like this )
+Logins = new Mongo.Collection("logins");
 // Relations
 Employees_Skills = new Mongo.Collection("employee_skills");
 Employees_Roles = new Mongo.Collection("employees_roles");
@@ -27,12 +39,12 @@ if (Meteor.isServer) {
     if (Employees.find().count() === 0) {
       // Filler if no employees are found.
       var employees = [
-        {'name': 'Bob Smith',
-          'description': 'Fast just got faster with Nexus S.'},
-        {'name': 'Jenna Marbles',
-          'description': 'Get it on!'},
-        {'name': 'Cool Guy',
-          'description': 'Leisure suit required. And only fiercest manners.'}
+        { firstName: 'Bob', lastName: 'Smith',
+          title: 'title1',
+          location: 'location1'},
+        { firstName: 'Ricky', lastName: 'Bobby',
+          title: 'title2',
+          location: 'location1'}
       ];
 
       // filler for the others
@@ -42,9 +54,6 @@ if (Meteor.isServer) {
       var locations = [{'_id' : 'location1'}, {'_id' : 'location2'}];
 
       // Populate the arrays:
-      for (var i = 0; i < employees.length; i++)
-        Employees.insert(employees[i]);
-
       for (var i = 0; i < skills.length; i++)
         Skills.insert(skills[i]);
       for (var i = 0; i < titles.length; i++)
@@ -53,6 +62,9 @@ if (Meteor.isServer) {
         Clients.insert(clients[i]);
       for (var i = 0; i < locations.length; i++)
         Locations.insert(locations[i]);
+
+      for (var i = 0; i < employees.length; i++)
+        Employees.insert(Employees._transform(employees[i]));
     }
   });
 }

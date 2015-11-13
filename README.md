@@ -14,3 +14,4 @@ Related links:
 - https://github.com/esvit/ng-table
 - https://www.meteor.com/
 - http://angular-meteor.com/
+- https://atmospherejs.com/dburles/collection-helpers
