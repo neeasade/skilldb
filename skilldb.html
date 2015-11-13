@@ -8,14 +8,14 @@
 <div ng-controller="EmployeeCtrl">
     <table st-table="employees" class="table table-bordered table-striped">
       <tr>
-        <th> Name </th>
-        <th> Title </th>
-        <th> Location </th>
+        <th st-sort="firstName"> Name </th>
+        <th st-sort="title"> Title </th>
+        <th st-sort="location"> Location </th>
       </tr>
-      <tr colspan="3">
-        <th>
-          <input st-search class="form-control" placeholder="global search ..." type="search" />
-        </th>
+      <tr>
+        <td colspan="3">
+          <input st-search class="input-sm form-control" placeholder="search..." type="search" />
+        </td>
       </tr>
       <tr ng-repeat="row in employees">
         <td> {{row.fullName()}}</td>
@@ -34,12 +34,12 @@
   <div ng-repeat="section in tableSections">
     <table st-table="section.collection" class="table table-bordered table-striped">
       <tr>
-        <th> {{section.name}} </th>
+        <th st-sort="_id"> {{section.name}} </th>
       </tr>
       <tr>
-        <th>
-          <input st-search="" class="form-control" placeholder="search ..." type="text"/>
-        </th>
+        <td>
+          <input st-search class="form-control" placeholder="search..." type="search"/>
+        </td>
       </tr>
       <tr ng-repeat="row in section.collection">
         <td>
