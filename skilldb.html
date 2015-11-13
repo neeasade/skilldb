@@ -6,20 +6,50 @@
   <h2>SkillDB</h2>
 
 <div ng-controller="EmployeeCtrl">
-  <table ng-table="employeeTable" class="table table-condensed table-bordered table-striped">
-    <tr ng-repeat="employee in $data">
-      <td data-title="'Name'" sortable="'firstName'" header-title="'name'">{{employee.fullName()}}</td>
-      <td data-title="'Location'">{{employee.location}}</td>
-      <td data-title="'Title'">{{employee.title}}</td>
-    </tr>
-  </table>
-
-  <div ng-repeat="section in tableSections">
-    <table ng-table-dynamic="{{section}}Table with {{section}}Cols" class="table table-condensed table-bordered table-striped">
-       <tr ng-repeat="row in $data">
-          <td ng-repeat="col in $columns">{{row[col.field]}}</td>
-        </tr>
+    <table st-table="employees" class="table table-bordered table-striped">
+      <tr>
+        <th> Name </th>
+        <th> Title </th>
+        <th> Location </th>
+      </tr>
+      <tr colspan="3">
+        <th>
+          <input st-search class="form-control" placeholder="global search ..." type="search" />
+        </th>
+      </tr>
+      <tr ng-repeat="row in employees">
+        <td> {{row.fullName()}}</td>
+        <td>
+          <a href="#" editable-select="row.title" e-ng-options="s._id as s._id for s in titles">
+            {{ row.title }}
+          </a>
+        </td>
+        <td>
+          <a href="#" editable-select="row.location" e-ng-options="s._id as s._id for s in locations">
+            {{ row.location }}
+          </a>
+        </td>
+      </tr>
     </table>
+  <div ng-repeat="section in tableSections">
+    <table st-table="section.collection" class="table table-bordered table-striped">
+      <tr>
+        <th> {{section.name}} </th>
+      </tr>
+      <tr>
+        <th>
+          <input st-search="" class="form-control" placeholder="search ..." type="text"/>
+        </th>
+      </tr>
+      <tr ng-repeat="row in section.collection">
+        <td>
+          <a href="#" editable-text="row._id">
+            {{ row._id || "empty "}}
+          </a>
+        </td>
+      </tr>
+    </table>
+
   </div>
 </div>
 </body>

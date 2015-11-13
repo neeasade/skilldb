@@ -15,8 +15,8 @@ bootstrap@1.0.1
 caching-compiler@1.0.0
 caching-html-compiler@1.0.2
 callback-hook@1.0.4
-charcolios:ng-table@1.0.0-beta.2
 check@1.1.0
+davidyaha:smart-table@0.1.4_1
 dburles:collection-helpers@1.0.4
 dburles:mongo-collection-instances@0.3.4
 ddp@1.2.2
@@ -70,5 +70,6 @@ tracker@1.0.9
 ui@1.0.8
 underscore@1.0.4
 url@1.0.5
+vitalets:angular-xeditable@0.1.9
 webapp@1.2.3
 webapp-hashing@1.0.5
