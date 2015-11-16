@@ -69,24 +69,46 @@
 
 
   <div ng-repeat="section in tableSections">
-    <table st-table="section.collection" class="table table-bordered table-striped">
+    <table st-table="displayedArrays[section.name]"  st-safe-src="section.collection" class="table table-bordered table-striped">
       <tr>
-        <th st-sort="_id"> {{section.name}} </th>
+        <th colspan="2" st-sort="_id"> {{section.name}} </th>
       </tr>
       <tr>
-        <th>
+        <th colspan="2" >
           <input st-search="" class="form-control" placeholder="search..." type="search"/>
         </th>
       </tr>
+      <tbody>
       <tr ng-repeat="row in section.collection">
         <td>
-          <a href="#" editable-text="row._id" onbeforesave="UpdateEmployees(row._id, $data, section.name)">
+            <a href="#" editable-text="row._id" onbeforesave="UpdateEmployees(row._id, $data, section.name)">
             {{ row._id }}
           </a>
         </td>
+        <td>
+          <button ng-click="deleteItem($parent.$index, row._id)" class="btn btn-sm btn-danger" >
+            <i class="glyphicon glyphicon-remove-circle"></i>
+          </button>
+        </td>
       </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="text-center">
+               <input class="form-control" type="text" name="input" ng-model="AddValue[$index]" ng-trim="true">
+          </td>
+          <td>
+          <button ng-click="addItem($index, AddValue[$index])" class="btn btn-sm btn-success" >
+            <i class="glyphicon glyphicon-plus"></i>
+          </button>
+          </td>
+        </tr>
+        <tr ng-show="section.collection.length > 5">
+          <td st-pagination="" st-items-by-page="5">
+          </td>
+        </tr>
+    </tfoot>
     </table>
-
   </div>
 </div>
 </body>
