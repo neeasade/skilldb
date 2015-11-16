@@ -16,12 +16,16 @@ Employees.helpers({
     return this.firstName + ' ' + this.lastName;
   },
   title: function() {
-    return this.findOne(this.titleId);
+    var lTitle = Titles.findOne(this.titleId);
+    return (lTitle === undefined ? "none" : lTitle._id)
   },
   location: function() {
-    return this.findOne(this.locationId);
+    var lLocation = Locations.findOne(this.locationId);
+    return (lLocation === undefined ? "none" : lLocation._id)
   }
 })
+
+//Roles.helpesr({})
 
 // ID, Client_ID, Active(bool), Bill_rate, Start_date, End_date, Bill_type(hourly, monthly), Utilization, Project_name
 Roles = new Mongo.Collection("roles");
@@ -39,13 +43,21 @@ if (Meteor.isServer) {
     if (Employees.find().count() === 0) {
       // Filler if no employees are found.
       var employees = [
-        { firstName: 'Bob', lastName: 'Smith',
-          title: 'title1',
-          location: 'location1'},
-        { firstName: 'Ricky', lastName: 'Bobby',
-          title: 'title2',
-          location: 'location1'}
+        { firstName: 'Bob', lastName: 'Smith'},
+        { firstName: 'Ricky', lastName: 'Bobby'},
+        { firstName: 'yeah', lastName: 'yeah_last'}
       ];
+
+      var roles = [
+        { name: 'Role!',
+          clientId: 'client1',
+          active: false,
+          Bill_rate: 1.00,
+          Bill_type: 'hourly',
+          Start_date: 'asdf',
+          End_date: 'asdf',
+          Utilization: 'todo'}
+      ]
 
       // filler for the others
       var skills = [{'_id' : 'skill1'}, {'_id' : 'skill2'}];
@@ -65,6 +77,11 @@ if (Meteor.isServer) {
 
       for (var i = 0; i < employees.length; i++)
         Employees.insert(Employees._transform(employees[i]));
+/*
+      for (var i = 0; i < roles.length; i++)
+        Roles.insert(roles[i]);
+        */
+
     }
   });
 }

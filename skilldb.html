@@ -14,19 +14,19 @@
       </tr>
       <tr>
         <th colspan="3">
-          <input st-search class="input-sm form-control" placeholder="search..." type="search" />
+          <input st-search="" class="input-sm form-control" placeholder="search..." type="search" />
         </th>
       </tr>
       <tr ng-repeat="row in employees">
         <td> {{row.fullName()}}</td>
         <td>
-          <a href="#" editable-select="row.title" e-ng-options="s._id as s._id for s in titles">
-            {{ row.title }}
+          <a href="#" editable-select="row.titleId" e-ng-options="s._id as s._id for s in titles">
+            {{ row.title() }}
           </a>
         </td>
         <td>
-          <a href="#" editable-select="row.location" e-ng-options="s._id as s._id for s in locations">
-            {{ row.location }}
+          <a href="#" editable-select="row.locationId" e-ng-options="s._id as s._id for s in locations">
+            {{ row.location() }}
           </a>
         </td>
       </tr>
@@ -38,7 +38,7 @@
       </tr>
       <tr>
         <th>
-          <input st-search class="form-control" placeholder="search..." type="search"/>
+          <input st-search="" class="form-control" placeholder="search..." type="search"/>
         </th>
       </tr>
       <tr ng-repeat="row in section.collection">

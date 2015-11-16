@@ -29,11 +29,11 @@ if (Meteor.isClient) {
         switch(type) {
           case 'Titles':
             for (var i = 0; i < $scope.employees.length; i++)
-              $scope.employees[i].title = ($scope.employees[i].title === before ? after : before);
+              $scope.employees[i].titleId = ($scope.employees[i].titleId === before ? after : before);
             break;
           case 'Locations':
             for (var i = 0; i < $scope.employees.length; i++)
-              $scope.employees[i].location = ($scope.employees[i].location === before ? after : before);
+              $scope.employees[i].locationId = ($scope.employees[i].locationId === before ? after : before);
             break;
           default:
             break;
