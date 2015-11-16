@@ -6,31 +6,68 @@
   <h2>SkillDB</h2>
 
 <div ng-controller="EmployeeCtrl">
-    <table st-table="employees" class="table table-bordered table-striped">
-      <tr>
-        <th st-sort="firstName"> Name </th>
-        <th st-sort="title"> Title </th>
-        <th st-sort="location"> Location </th>
-      </tr>
-      <tr>
-        <th colspan="3">
-          <input st-search="" class="input-sm form-control" placeholder="search..." type="search" />
-        </th>
-      </tr>
-      <tr ng-repeat="row in employees">
-        <td> {{row.fullName()}}</td>
-        <td>
-          <a href="#" editable-select="row.titleId" e-ng-options="s._id as s._id for s in titles">
-            {{ row.title() }}
-          </a>
-        </td>
-        <td>
-          <a href="#" editable-select="row.locationId" e-ng-options="s._id as s._id for s in locations">
-            {{ row.location() }}
-          </a>
-        </td>
-      </tr>
-    </table>
+  <table st-table="employees" class="table table-bordered table-striped">
+    <tr>
+      <th st-sort="firstName"> Name </th>
+      <th st-sort="titleId"> Title </th>
+      <th st-sort="locationId"> Location </th>
+    </tr>
+    <tr>
+      <th colspan="3">
+        <input st-search="" class="input-sm form-control" placeholder="search..." type="search" />
+      </th>
+    </tr>
+    <tr ng-repeat="row in employees">
+      <td> {{row.fullName()}}</td>
+      <td>
+        <a href="#" buttons="no" editable-select="row.titleId" e-ng-options="s._id as s._id for s in titles">
+          {{ row.titleId || "none" }}
+        </a>
+      </td>
+      <td>
+        <a href="#" buttons="no" editable-select="row.locationId" e-ng-options="s._id as s._id for s in locations">
+          {{ row.locationId || "none" }}
+        </a>
+      </td>
+    </tr>
+  </table>
+
+
+  <table st-table="roles" class="table table-bordered table-striped">
+    <tr>
+      <th st-sort="name"> Name </th>
+      <th st-sort="cliendId"> Client </th>
+      <th st-sort="Bill_rate"> Bill rate </th>
+    </tr>
+    <tr>
+      <th colspan="3">
+        <input st-search="" class="input-sm form-control" placeholder="search..." type="search" />
+      </th>
+    </tr>
+    <tr ng-repeat="row in roles">
+      <td>
+        <a href="#" editable-text="row.name" onbeforesave="ValidateEmpty($data)">
+          {{ row.name }}
+        </a>
+      </td>
+      <td>
+        <a href="#" editable-select="row.clientId" e-ng-options="s._id as s._id for s in clients">
+          {{ row.clientId }}
+        </a>
+      </td>
+      <td>
+        <a href="#" editable-text="row.Bill_rate" onbeforesave="ValidateCurrency($data)" >
+          {{ row.Bill_rate | currency : symbol : fractionSize }}
+        </a>
+        /
+        <a href="#" buttons="no" editable-select="row.Bill_type" e-ng-options="s.type as s.type for s in billTypes">
+          {{ row.Bill_type }}
+        </a>
+      </td>
+    </tr>
+  </table>
+
+
   <div ng-repeat="section in tableSections">
     <table st-table="section.collection" class="table table-bordered table-striped">
       <tr>
@@ -43,7 +80,7 @@
       </tr>
       <tr ng-repeat="row in section.collection">
         <td>
-          <a href="#" editable-text="row._id" onbeforesave="ValidateEmpty(row._id, $data, section.name)">
+          <a href="#" editable-text="row._id" onbeforesave="UpdateEmployees(row._id, $data, section.name)">
             {{ row._id }}
           </a>
         </td>
