@@ -1,16 +1,23 @@
 
 if (Meteor.isClient) {
-  angular.module('skilldb', ['angular-meteor', 'xeditable', 'smart-table'])
+  angular.module('skilldb', ['angular-meteor', 'ui.router', 'xeditable', 'smart-table'])
   .controller('EmployeeCtrl', ['$scope', '$meteor', '$filter', '$log',
   function EmployeeCtrl($scope, $meteor, $filter, $log) {
     // relate the monogodb collections
     $scope.employees = $meteor.collection(Employees);
     $scope.roles = $meteor.collection(Roles);
 
+    // single property(_id)
     $scope.skills = $meteor.collection(Skills);
     $scope.titles = $meteor.collection(Titles);
     $scope.locations = $meteor.collection(Locations);
     $scope.clients = $meteor.collection(Clients);
+
+    // relates/maps
+    $scope.employees_skills = $meteor.collection(Employees_Skills);
+    $scope.employees_roles = $meteor.collection(Employees_Roles);
+    $scope.roles_skills = $meteor.collection(Roles_Skills);
+    $scope.roles_employees = $meteor.collection(Roles_Employees);
 
     // Sections for documents with only one property: _id
     // name: title
@@ -27,7 +34,7 @@ if (Meteor.isClient) {
     ];
 
     // pagination limit
-    $scope.ItemsPerPage = 2;
+    $scope.ItemsPerPage = 5;
 
     // options to reference for Bill type
     $scope.billTypes = [
@@ -50,8 +57,8 @@ if (Meteor.isClient) {
     $scope.UpdateEmployeesRoles = function(before, after, index) {
       if (after === '') {
         return "Empty not allowed.";
-      } else if($scope.SingleSections[index].collection.findOne({_id: after}) !== null) {
-        return "Entry exists."
+      } else if($scope.SingleSections[index].collection.findOne({_id: after}) !== undefined) {
+        return "Entry exists.";
       } else {
         // it is assumed the change will be successful, so we will change
         // employees and roles here.
@@ -64,21 +71,34 @@ if (Meteor.isClient) {
                 );
             */
         switch(index) {
+          // these indexes match with the SingleSelections array.
+          case 0: //role skills, employee skills
+            Roles_Skills.find({skillId: before}).forEach(function(lRelate) {
+              lRelate.skillId = after;
+              $scope.roles_skills.save(lRelate);
+            });
+            Employees_Skills.find({skillId: before}).forEach(function(lRelate) {
+              lRelate.skillId = after;
+              $scope.employees_skills.save(lRelate);
+            });
+            break;
           case 1:
-            Employees.find({titleId: before}).forEach(function(Emp) {
-              Emp.titleId = after;
-              $scope.employees.save(Emp);
+            Employees.find({titleId: before}).forEach(function(lEmployee) {
+              lEmployee.titleId = after;
+              $scope.employees.save(lEmployee);
+            });
+            break;
+          case 2:
+            Roles.find({clientId: before}).forEach(function(lRole) {
+              lRole.clientId = after;
+              $scope.roles.save(lRole);
             });
             break;
           case 3:
-            Employees.find({locationId: before}).forEach(function(Emp) {
-              Emp.locationId = after;
-              $scope.employees.save(Emp);
+            Employees.find({locationId: before}).forEach(function(lEmployee) {
+              lEmployee.locationId = after;
+              $scope.employees.save(lEmployee);
             });
-            break;
-          case 'Clients':
-            for (var i = 0; i < $scope.roles.length; i++)
-              $scope.roles[i].locationId = ($scope.roles[i].locationId === before ? after : before);
             break;
           default:
             break;
