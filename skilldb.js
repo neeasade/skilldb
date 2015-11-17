@@ -140,13 +140,23 @@ if (Meteor.isClient) {
     $scope.refSkills = [];
     $scope.refEmployeeSkills = [];
 
-    $scope.EmployeeSkills = [];
-    // update the employee skills array that the table will be watching.
-    $scope.updateEmployeeSkills = function () {
-     $scope.EmployeeSkills = $scope.employee.skills();
+
+    $scope.addSkill = function(id) {
+      $scope.employees_skills.push( {employeeId: $scope.employee._id, skillId: id});
     };
 
-    $scope.updateEmployeeSkills();
+    $scope.removeSkill = function(id) {
+      Employees_Skills.find({employeeId: $scope.employee._id});
+    };
+
+    $scope.hasSkill = function(id) {
+      return ($scope.employee.skills().indexOf(id) !== -1);
+    };
+
+    $scope.EmployeeSkills = $meteor.collection(function(){
+      return Employees_Skills.find( { property : $scope.employee._id } );
+    });
+
  }])
  .config(function($urlRouterProvider, $stateProvider, $locationProvider) {
 

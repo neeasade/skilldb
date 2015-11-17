@@ -1,8 +1,9 @@
 <div ng-controller="EmployeeDetailsCtrl">
 <table class="table table-bordered table-striped">
   <tr>
-    <td> Employee </td>
-    <td> {{employee.fullName()}} </td>
+    <th colspan="2">
+       {{employee.fullName()}}
+    </th>
   </tr>
  <tr>
     <td> Title </td>
@@ -22,16 +23,35 @@
   </tr>
 </table>
 
-<table>
+<table class="table">
   <tr><td>
   <table  class="table table-bordered table-striped" st-table="refSkills" st-safe-src="skills">
     <tr>
-      <th>
+      <th colspan="2">
+        All Skills
+      </th>
+    </tr>
+    <tr>
+      <th colspan="2">
         <input st-search="" class="form-control" placeholder="search..." type="search"/>
       </th>
     </tr>
     <tr ng-repeat="row in skills">
-      <td> {{ row._id }} </td>
+      <td> {{ row._id }}
+        <div class="pull-right">
+        <span ng-if="hasSkill(row._id)">
+          <button ng-click="removeSkill(row._id)" class="btn btn-sm btn-danger">
+            <i class="glyphicon glyphicon-minus"></i>
+          </button>
+        </span>
+
+        <span ng-if="!hasSkill(row._id)">
+          <button ng-click="addSkill(row._id)" class="btn btn-sm btn-success">
+            <i class="glyphicon glyphicon-plus"></i>
+          </button>
+        </span>
+        </div>
+      </td>
     </tr>
   </table>
 
@@ -39,12 +59,18 @@
 
   <table  class="table table-bordered table-striped" st-table="refEmployeeSkills" st-safe-src="EmployeeSkills">
     <tr>
-      <th>
+      <th colspan="2">
+        {{employee.firstName}}'s skills
+      </th>
+    </tr>
+    <tr>
+      <th colspan="2">
         <input st-search="" class="form-control" placeholder="search..." type="search"/>
       </th>
     </tr>
-    <tr ng-repeat="row in employee.skills()">
-      <td> {{ row._id }} </td>
+    <tr ng-repeat="row in EmployeeSkills">
+      <td> {{ row.skillId }} </td>
+
     </tr>
   </table>
     </td></tr>
