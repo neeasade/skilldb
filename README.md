@@ -7,6 +7,18 @@ Notable used angular directives/ui:
 
 There are two types of users, users who can edit data, and users who can't, you must have a logon to view the data.
 
+TODO:
+- [ ] Authentification
+	- [ ] Views to edit users
+	- [ ] conditions to disable editing options in existing views per permission.
+- [ ] Navbar
+- [ ] Employee view
+	- [ ] Skill toggles
+	- [ ] role toggles
+- [ ] Role view
+	- [ ] Skill toggles
+
+
 ## how do I run this?
 - Install meteor: https://www.meteor.com/install
 - In the cloned directory, run `meteor`
