@@ -2,8 +2,8 @@
 This is an employee skills database meteor project, with the focus on angular. Meteor is used to ease of database logic and deployment.
 
 Notable used angular directives/ui:
-- (Smart Table)[http://lorenzofox3.github.io/smart-table-website/]
-- (xeditable angular)[http://vitalets.github.io/angular-xeditable/]
+- [Smart Table](http://lorenzofox3.github.io/smart-table-website/)
+- [xeditable angular](http://vitalets.github.io/angular-xeditable/)
 
 There are two types of users, users who can edit data, and users who can't, you must have a logon to view the data.
 
