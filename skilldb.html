@@ -56,10 +56,9 @@
         </a>
       </td>
       <td>
-        <a href="#" editable-text="row.Bill_rate" onbeforesave="ValidateCurrency($data)" >
+        <a href="#" editable-text="row.Bill_rate" onbeforesave="ValidateCurrency($data)">
           {{ row.Bill_rate | currency : symbol : fractionSize }}
         </a>
-        /
         <a href="#" buttons="no" editable-select="row.Bill_type" e-ng-options="s.type as s.type for s in billTypes">
           {{ row.Bill_type }}
         </a>
@@ -68,10 +67,10 @@
   </table>
 
 
-  <div ng-repeat="section in tableSections">
-    <table st-table="displayedArrays[section.name]"  st-safe-src="section.collection" class="table table-bordered table-striped">
+  <div ng-repeat="section in SingleSections">
+    <table st-table="section.displayArray"  st-safe-src="section.handle" class="table table-striped">
       <tr>
-        <th colspan="2" st-sort="_id"> {{section.name}} </th>
+        <th colspan="2" st-sort="_id"> {{$index}}: {{section.name}} </th>
       </tr>
       <tr>
         <th colspan="2" >
@@ -79,9 +78,9 @@
         </th>
       </tr>
       <tbody>
-      <tr ng-repeat="row in section.collection">
+      <tr ng-repeat="row in section.handle">
         <td>
-            <a href="#" editable-text="row._id" onbeforesave="UpdateEmployees(row._id, $data, section.name)">
+          <a href="#" editable-text="row._id" onbeforesave="UpdateEmployeesRoles(row._id, $data, $parent.$parent.$index)">
             {{ row._id }}
           </a>
         </td>
@@ -95,19 +94,20 @@
       <tfoot>
         <tr>
           <td class="text-center">
-               <input class="form-control" type="text" name="input" ng-model="AddValue[$index]" ng-trim="true">
+               <input class="form-control" type="text" name="input" ng-model="SingleSections[$index].AddValue" ng-trim="true">
           </td>
           <td>
-          <button ng-click="addItem($index, AddValue[$index])" class="btn btn-sm btn-success" >
+          <button ng-click="addItem($index, SingleSections[$index].AddValue)" class="btn btn-sm btn-success" >
             <i class="glyphicon glyphicon-plus"></i>
           </button>
           </td>
         </tr>
-        <tr ng-show="section.collection.length > 5">
-          <td st-pagination="" st-items-by-page="5">
+        <tr>
+          <td colspan="2" class="text-center">
+            <div st-pagination="" st-items-by-page="ItemsPerPage"></div>
           </td>
         </tr>
-    </tfoot>
+      </tfoot>
     </table>
   </div>
 </div>

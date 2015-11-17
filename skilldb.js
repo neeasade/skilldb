@@ -12,24 +12,22 @@ if (Meteor.isClient) {
     $scope.locations = $meteor.collection(Locations);
     $scope.clients = $meteor.collection(Clients);
 
-    // sections to loop through to do table repeats
-    // order here matters, it is the index referenced by deleteItem()
-    $scope.tableSections = [
-    { name: 'Skills', collection: $scope.skills },
-    { name: 'Titles', collection: $scope.titles },
-    { name: 'Clients', collection: $scope.clients },
-    { name: 'Locations', collection: $scope.locations }
+    // Sections for documents with only one property: _id
+    // name: title
+    // handle: angularjs handle in this controller
+    // collection: mongodb collection reference
+    // displayArray: empty array for smart table async.
+    // addValue: value for dynamic adding at foot of table.
+    // order here matters, it is referenced in UpdateEmployeesRoles()
+    $scope.SingleSections = [
+    { name: 'Skills', handle: $scope.skills, collection: Skills, displayArray: [], addValue: ''},
+    { name: 'Titles', handle: $scope.titles, collection: Titles, displayArray: [], addValue: ''},
+    { name: 'Clients', handle: $scope.clients, collection: Clients, displayArray: [], addValue: ''},
+    { name: 'Locations', handle: $scope.locations, collection: Locations, displayArray: [], addValue: ''}
     ];
 
-    // Arrays for smart table to watch/handle safe copy of to handle async.
-    $scope.displayedArrays = {};
-    $scope.displayedArrays['Skills'] = [];
-    $scope.displayedArrays['Titles'] = [];
-    $scope.displayedArrays['Clients'] = [];
-    $scope.displayedArrays['Locations'] = [];
-
-    // Arrays for add model to be dynamic
-    $scope.AddValue = ["", "", "", ""];
+    // pagination limit
+    $scope.ItemsPerPage = 2;
 
     // options to reference for Bill type
     $scope.billTypes = [
@@ -37,66 +35,46 @@ if (Meteor.isClient) {
       { type: 'Monthly' }
     ];
 
-    // Delete an item, remote it from any employees or roles.
     $scope.addItem = function(section, id) {
-      $log.log(section+' '+id);
-      switch(section) {
-        case 0:
-          if (Skills.find({'_id': id}).count() === 0)
-            Skills.insert({_id: id});
-          break;
-        case 1:
-          //if (Titles.find(ObjectId(id)) === undefined)
-           // Titles.Inser
-          break;
-        case 2:
-          $scope.clients.remove(id);
-          break;
-        case 3:
-          $scope.locations.remove(id);
-          break;
-        default:
-          break;
-      }
-    }
-
-    // Delete an item, remote it from any employees or roles.
-    $scope.deleteItem = function(section, id) {
-      switch(section) {
-        case 0:
-          $scope.skills.remove(id);
-          break;
-        case 1:
-          //relates = Roles_Employees.find({roleId: this._id});
-          $scope.employees.find({titleId: id });
-          $scope.titles.remove(id);
-          break;
-        case 2:
-          $scope.clients.remove(id);
-          break;
-        case 3:
-          $scope.locations.remove(id);
-          break;
-        default:
-          break;
+      if ($scope.SingleSections[section].collection.find({'_id': id}).count() === 0 && id !== undefined && id !== '') {
+        $scope.SingleSections[section].collection.insert({_id: id});
       }
     };
 
+    // Delete an item, remote it from any employees or roles.
+    $scope.deleteItem = function(section, id) {
+      $scope.SingleSections[section].collection.remove(id);
+    };
+
     // Here down are functions that perform checks or edits on data as it changes.
-    $scope.UpdateEmployeesRoles = function(before, after, type) {
+    $scope.UpdateEmployeesRoles = function(before, after, index) {
       if (after === '') {
         return "Empty not allowed.";
+      } else if($scope.SingleSections[index].collection.findOne({_id: after}) !== null) {
+        return "Entry exists."
       } else {
         // it is assumed the change will be successful, so we will change
-        // employees and roles with this here.
-        switch(type) {
-          case 'Titles':
-            for (var i = 0; i < $scope.employees.length; i++)
-              $scope.employees[i].titleId = ($scope.employees[i].titleId === before ? after : before);
+        // employees and roles here.
+        // Can't do multi updates via client side code, which would be eg:
+            /*
+            Employees.handle.update(
+                { titleId: before },
+                { $set: { titleId: after } },
+                { multi: true }
+                );
+            */
+        switch(index) {
+          case 1:
+            Employees.find({titleId: before}).forEach(function(Emp) {
+              Emp.titleId = after;
+              $scope.employees.save(Emp);
+            });
             break;
-          case 'Locations':
-            for (var i = 0; i < $scope.employees.length; i++)
-              $scope.employees[i].locationId = ($scope.employees[i].locationId === before ? after : before);
+          case 3:
+            Employees.find({locationId: before}).forEach(function(Emp) {
+              Emp.locationId = after;
+              $scope.employees.save(Emp);
+            });
             break;
           case 'Clients':
             for (var i = 0; i < $scope.roles.length; i++)
