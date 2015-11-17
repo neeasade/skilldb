@@ -119,5 +119,23 @@ if (Meteor.isClient) {
       }
     }
 
-  }]);
+  }])
+  .config(function($urlRouterProvider, $stateProvider, $locationProvider) {
+
+    $locationProvider.html5Mode(true);
+
+    $stateProvider
+      .state('main', {
+        url: '/main',
+        templateUrl: 'skilldb.html',
+        controller: 'EmployeeCtrl'
+      })
+      .state('EmployeeView', {
+        url: '/employee',
+        templateUrl: 'employee.html',
+        controller: 'EmployeeCtrl'
+      });
+
+    $urlRouterProvider.otherwise("/main");
+  });
 }

@@ -1,0 +1,36 @@
+<head>
+  <title>skilldb</title>
+</head>
+
+<body ng-app="skilldb">
+  <h2>SkillDB - Employee view</h2>
+
+<div ng-controller="EmployeeCtrl">
+  <table st-table="employees" class="table table-bordered table-striped">
+    <tr>
+      <th st-sort="firstName"> Name </th>
+      <th st-sort="titleId"> Title </th>
+      <th st-sort="locationId"> Location </th>
+    </tr>
+    <tr>
+      <th colspan="3">
+        <input st-search="" class="input-sm form-control" placeholder="search..." type="search" />
+      </th>
+    </tr>
+    <tr ng-repeat="row in employees">
+      <td> {{row.fullName()}}</td>
+      <td>
+        <a href="#" buttons="no" editable-select="row.titleId" e-ng-options="s._id as s._id for s in titles">
+          {{ row.titleId || "none" }}
+        </a>
+      </td>
+      <td>
+        <a href="#" buttons="no" editable-select="row.locationId" e-ng-options="s._id as s._id for s in locations">
+          {{ row.locationId || "none" }}
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+
