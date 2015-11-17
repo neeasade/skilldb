@@ -50,6 +50,7 @@ if (Meteor.isClient) {
 
     // Delete an item, remove it from any employees or roles.
     $scope.deleteItem = function(section, id) {
+      // TODO: remove from employees or roles here.
       $scope.SingleSections[section].collection.remove(id);
     };
 
@@ -120,7 +121,34 @@ if (Meteor.isClient) {
     }
 
   }])
-  .config(function($urlRouterProvider, $stateProvider, $locationProvider) {
+  .controller('EmployeeDetailsCtrl', ['$scope', '$meteor', '$stateParams', '$state', '$filter', '$log',
+  function EmployeeDetailsCtrl($scope, $meteor, $stateParams, $state, $filter, $log) {
+    // Focused employee:
+    $scope.employee = $meteor.object(Employees, $stateParams.EmployeeId);
+
+    // db collection references
+    $scope.skills = $meteor.collection(Skills);
+    $scope.titles = $meteor.collection(Titles);
+    $scope.locations = $meteor.collection(Locations);
+    $scope.clients = $meteor.collection(Clients);
+
+    // relates/maps
+    $scope.employees_skills = $meteor.collection(Employees_Skills);
+    $scope.employees_roles = $meteor.collection(Employees_Roles);
+
+    // table copy arrays for async:
+    $scope.refSkills = [];
+    $scope.refEmployeeSkills = [];
+
+    $scope.EmployeeSkills = [];
+    // update the employee skills array that the table will be watching.
+    $scope.updateEmployeeSkills = function () {
+     $scope.EmployeeSkills = $scope.employee.skills();
+    };
+
+    $scope.updateEmployeeSkills();
+ }])
+ .config(function($urlRouterProvider, $stateProvider, $locationProvider) {
 
     $locationProvider.html5Mode(true);
 
@@ -131,9 +159,9 @@ if (Meteor.isClient) {
         controller: 'EmployeeCtrl'
       })
       .state('EmployeeView', {
-        url: '/employee',
+        url: '/employee/:EmployeeId',
         templateUrl: 'views/employee.html',
-        controller: 'EmployeeCtrl'
+        controller: 'EmployeeDetailsCtrl'
       });
 
     $urlRouterProvider.otherwise("/summary");

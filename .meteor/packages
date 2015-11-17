@@ -24,3 +24,5 @@ mrt:meteor-angular-bootstrap
 bootstrap
 mrt:bootstrap-3
 angularui:angular-ui-router
+accounts-password
+dotansimha:accounts-ui-angular

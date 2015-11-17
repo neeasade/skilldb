@@ -12,7 +12,11 @@
       </th>
     </tr>
     <tr ng-repeat="row in employees">
-      <td> {{row.fullName()}}</td>
+      <td>
+        <a href="/employee/{{row._id}}">
+          {{row.fullName()}}
+        </a>
+      </td>
       <td>
         <a href="#" buttons="no" editable-select="row.titleId" e-ng-options="s._id as s._id for s in titles">
           {{ row.titleId || "none" }}

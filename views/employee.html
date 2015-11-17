@@ -1,27 +1,52 @@
-<div ng-controller="EmployeeCtrl">
-  <table st-table="employees" class="table table-bordered table-striped">
+<div ng-controller="EmployeeDetailsCtrl">
+<table class="table table-bordered table-striped">
+  <tr>
+    <td> Employee </td>
+    <td> {{employee.fullName()}} </td>
+  </tr>
+ <tr>
+    <td> Title </td>
+    <td>
+       <a href="#" buttons="no" editable-select="employee.titleId" e-ng-options="s._id as s._id for s in titles">
+        {{ employee.titleId || "none" }}
+       </a>
+    </td>
+  </tr>
+ <tr>
+    <td> Location </td>
+    <td>
+      <a href="#" buttons="no" editable-select="row.locationId" e-ng-options="s._id as s._id for s in locations">
+        {{ row.locationId || "none" }}
+      </a>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr><td>
+  <table  class="table table-bordered table-striped" st-table="refSkills" st-safe-src="skills">
     <tr>
-      <th st-sort="firstName"> Name </th>
-      <th st-sort="titleId"> Title </th>
-      <th st-sort="locationId"> Location </th>
-    </tr>
-    <tr>
-      <th colspan="3">
-        <input st-search="" class="input-sm form-control" placeholder="search..." type="search" />
+      <th>
+        <input st-search="" class="form-control" placeholder="search..." type="search"/>
       </th>
     </tr>
-    <tr ng-repeat="row in employees">
-      <td> {{row.fullName()}}</td>
-      <td>
-        <a href="#" buttons="no" editable-select="row.titleId" e-ng-options="s._id as s._id for s in titles">
-          {{ row.titleId || "none" }}
-        </a>
-      </td>
-      <td>
-        <a href="#" buttons="no" editable-select="row.locationId" e-ng-options="s._id as s._id for s in locations">
-          {{ row.locationId || "none" }}
-        </a>
-      </td>
+    <tr ng-repeat="row in skills">
+      <td> {{ row._id }} </td>
     </tr>
   </table>
+
+    </td><td>
+
+  <table  class="table table-bordered table-striped" st-table="refEmployeeSkills" st-safe-src="EmployeeSkills">
+    <tr>
+      <th>
+        <input st-search="" class="form-control" placeholder="search..." type="search"/>
+      </th>
+    </tr>
+    <tr ng-repeat="row in employee.skills()">
+      <td> {{ row._id }} </td>
+    </tr>
+  </table>
+    </td></tr>
+</table>
 </div>
