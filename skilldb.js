@@ -48,7 +48,7 @@ if (Meteor.isClient) {
       }
     };
 
-    // Delete an item, remote it from any employees or roles.
+    // Delete an item, remove it from any employees or roles.
     $scope.deleteItem = function(section, id) {
       $scope.SingleSections[section].collection.remove(id);
     };
@@ -125,17 +125,17 @@ if (Meteor.isClient) {
     $locationProvider.html5Mode(true);
 
     $stateProvider
-      .state('main', {
-        url: '/main',
-        templateUrl: 'skilldb.html',
+      .state('summary', {
+        url: '/summary',
+        templateUrl: 'views/summary.html',
         controller: 'EmployeeCtrl'
       })
       .state('EmployeeView', {
         url: '/employee',
-        templateUrl: 'employee.html',
+        templateUrl: 'views/employee.html',
         controller: 'EmployeeCtrl'
       });
 
-    $urlRouterProvider.otherwise("/main");
+    $urlRouterProvider.otherwise("/summary");
   });
 }
